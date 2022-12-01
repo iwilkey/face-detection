@@ -7,12 +7,14 @@ set(h ${src}/h)
 set(pb-src 
     ${h}/FaceSpaceWindow.h
     ${h}/FaceSpaceCore.h
-    ${h}/FaceSpaceAbstractState.h
+    ${h}/FaceSpaceRenderer.h
+    ${h}/EffectEngine.h
 
     ${cc}/Invoke.cc
     ${cc}/FaceSpaceCore.cc
     ${cc}/FaceSpaceWindow.cc
-    ${cc}/FaceSpaceAbstractState.cc
+    ${cc}/FaceSpaceRenderer.cc
+    ${cc}/EffectEngine.cc
 )
 
 # ImGui sources...

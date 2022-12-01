@@ -9,6 +9,8 @@
 using namespace std;
 
 #include "FaceSpaceWindow.h"
+#include "FaceSpaceRenderer.h"
+#include "EffectEngine.h"
 
 enum LogType {
     SUCCESS,
@@ -24,11 +26,18 @@ class FaceSpaceCore {
         void loop(void);
         void terminate(void);
         static void log(LogType, string);
+        static Mat pollWebcam(void);
         inline void setTargetFPS(double fps) { this->targetFPS = fps; }
         inline static FaceSpaceWindow * getWindow(void) { return window; }
+        inline static FaceSpaceRenderer * getRenderer(void) { return renderer; }
+        inline static EffectEngine * getEffectEngine(void) { return effect; }
+        inline static VideoCapture * getWebcam(void) { return webcam; }
 
     private:
         static FaceSpaceWindow * window;
+        static FaceSpaceRenderer * renderer;
+        static EffectEngine * effect;
+        static VideoCapture * webcam;
         double targetFPS = 24.0f;
 };
 

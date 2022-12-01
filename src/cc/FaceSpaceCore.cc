@@ -4,10 +4,19 @@
 #include "../h/FaceSpaceCore.h"
 
 FaceSpaceWindow * FaceSpaceCore::window = nullptr;
+FaceSpaceRenderer * FaceSpaceCore::renderer = nullptr;
+EffectEngine * FaceSpaceCore::effect = nullptr;
+VideoCapture * FaceSpaceCore::webcam = nullptr;
 
 FaceSpaceCore::FaceSpaceCore() {
     FaceSpaceWindow win(1200, 720);
     this->window = &win;
+    FaceSpaceRenderer renderer;
+    this->renderer = &renderer;
+    VideoCapture cap(2);
+    this->webcam = &cap;
+    EffectEngine effect;
+    this->effect = &effect;
     log(SUCCESS, "FaceSpace initialized.");
     loop();
     terminate();
@@ -17,9 +26,18 @@ FaceSpaceCore::~FaceSpaceCore() {}
 
 void FaceSpaceCore::loop(void) {
     while(!window->windowShouldClose()) {
+        effect->process();
         window->render();
         this_thread::sleep_for(chrono::nanoseconds((unsigned)(1.0f / targetFPS) * 1000000000));
     }
+}
+
+Mat FaceSpaceCore::pollWebcam(void) {
+    Mat frame;
+    if(!getWebcam()->isOpened()) 
+        return frame;
+    *getWebcam() >> frame;
+    return frame;
 }
 
 void FaceSpaceCore::log(LogType type, string message) {

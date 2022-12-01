@@ -7,15 +7,12 @@
 FaceSpaceWindow::FaceSpaceWindow(const unsigned width, const unsigned height) {
     Point2i dimm(width, height);
     this->dim = dimm;
-
     FaceSpaceCore::log(NOTICE, "Starting FaceSpace window construction...");
-
     if(!glfwInit()) {
         FaceSpaceCore::log(ERROR, "GLFW could not be initialized.");
         exit(-1);
     }
     FaceSpaceCore::log(SUCCESS, "GLFW initialized.");
-
     FaceSpaceCore::log(NOTICE, "Creating window handle...");
     windowHandle = glfwCreateWindow(width, height, "FaceSpace", nullptr, nullptr);
     FaceSpaceCore::log(NOTICE, "Making GL context current...");
@@ -40,18 +37,7 @@ FaceSpaceWindow::~FaceSpaceWindow() {}
 
 void FaceSpaceWindow::render(void) {
     glfwPollEvents();
-    glClear(GL_COLOR_BUFFER_BIT);
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
-    ImGui::ShowDemoWindow();
-
-    // draw here...
-
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    glfwSwapBuffers(windowHandle);
+    FaceSpaceCore::getRenderer()->render();
 }
 
 void FaceSpaceWindow::dispose(void) {
