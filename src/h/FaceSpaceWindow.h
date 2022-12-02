@@ -14,7 +14,8 @@ using namespace cv;
 
 class FaceSpaceWindow {
     public:
-        FaceSpaceWindow(const unsigned, const unsigned);
+        FaceSpaceWindow(const unsigned, 
+                        const unsigned);
         ~FaceSpaceWindow();
 
         inline unsigned getWindowWidth(void) { return dim.x; }

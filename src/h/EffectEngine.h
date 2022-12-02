@@ -8,6 +8,7 @@
 using namespace std;
 using namespace cv;
 
+#define BOX_FILTER_KERNAL_SIZE 25.0f
 #define GAUSSIAN_MATRIX_CONSTANT 1 / 256.0f
 
 #define FILTER_COUNT 8
@@ -39,7 +40,8 @@ class EffectEngine {
         void applyGaussianBlurFilter(void);
         void applyEdgeDetectionFilter(void);
         void applyCustomFilter(void);
-        void applyBrightness(void);
+        void detectFace(void);
+        void applyWeight(void);
 
         // Output image to renderer...
         Mat output;
@@ -57,12 +59,6 @@ class EffectEngine {
                 -1, -1,  -1,
                 -1, 9.5, -1,
                 -1, -1,  -1);
-        const Mat BOX_BLUR_KERNEL = 
-            (Mat_<float>(3, 3)
-                <<
-                (1 / 9.0f), (1 / 9.0f), (1 / 9.0f),
-                (1 / 9.0f), (1 / 9.0f), (1 / 9.0f),
-                (1 / 9.0f), (1 / 9.0f), (1 / 9.0f));
         const Mat GAUSSIAN_BLUR_KERNEL = 
             (Mat_<float>(5, 5)
                 <<
@@ -77,17 +73,31 @@ class EffectEngine {
                 -1, -1, -1,
                 -1,  8, -1,
                 -1, -1, -1);
+        // To be defined at construction...
+        Mat BOX_BLUR_KERNEL;
         // Init as identity kernel...
-        Mat customKernel =
-            (Mat_<float>(3, 3)
-                <<
-                0, 0, 0,
-                0, 1, 0,
-                0, 0, 0);
+        float customKernelArray[9] = { 0.0f, 0.0f, 0.0f,
+                                       0.0f, 1.0f, 0.0f,
+                                       0.0f, 0.0f, 0.0f };
+        Mat customKernel = Mat(3, 3, CV_32F, &customKernelArray);
+                
+        // OpenCV cascade classifier object for face detection...
+        CascadeClassifier classifier = CascadeClassifier("../src/xml/HaarFrontalFaceCascade.xml");
+        // All detected features will be stored here...
+        vector<Rect> features;
+        // Biggest feature rect, usually the face.
+        Rect face;
+        // Face detection variables
+        float scale = 1.1f;
+        int neighbors = 4;
+        int minSize = 300;
+        int maxSize = 300;
 
         // Effect states
         bool effectState[FILTER_COUNT] = { false };
+        bool showFaceDetection = false;
         float brightness = 1.0f;
+        float contrast = 1.0f;
 };
 
 #endif // _EFFECT_ENGINE_H_

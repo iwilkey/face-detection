@@ -25,7 +25,8 @@ class FaceSpaceCore {
 
         void loop(void);
         void terminate(void);
-        static void log(LogType, string);
+        static void log(LogType, 
+                        string);
         static Mat pollWebcam(void);
         inline void setTargetFPS(double fps) { this->targetFPS = fps; }
         inline static FaceSpaceWindow * getWindow(void) { return window; }
@@ -38,7 +39,7 @@ class FaceSpaceCore {
         static FaceSpaceRenderer * renderer;
         static EffectEngine * effect;
         static VideoCapture * webcam;
-        double targetFPS = 24.0f;
+        double targetFPS = 60.0f;
 };
 
 #endif // _FACE_SPACE_CORE_H_

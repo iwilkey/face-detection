@@ -14,6 +14,7 @@ set(pb-src
     ${cc}/FaceSpaceCore.cc
     ${cc}/FaceSpaceWindow.cc
     ${cc}/FaceSpaceRenderer.cc
+    ${cc}/Matrix.cc
     ${cc}/EffectEngine.cc
 )
 

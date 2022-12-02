@@ -4,7 +4,8 @@
 #include "../h/FaceSpaceCore.h"
 #include "../h/FaceSpaceWindow.h"
 
-FaceSpaceWindow::FaceSpaceWindow(const unsigned width, const unsigned height) {
+FaceSpaceWindow::FaceSpaceWindow(const unsigned width, 
+                                 const unsigned height) {
     Point2i dimm(width, height);
     this->dim = dimm;
     FaceSpaceCore::log(NOTICE, "Starting FaceSpace window construction...");

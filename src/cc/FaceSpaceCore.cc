@@ -13,7 +13,7 @@ FaceSpaceCore::FaceSpaceCore() {
     this->window = &win;
     FaceSpaceRenderer renderer;
     this->renderer = &renderer;
-    VideoCapture cap(2);
+    VideoCapture cap(0);
     this->webcam = &cap;
     EffectEngine effect;
     this->effect = &effect;
@@ -40,7 +40,8 @@ Mat FaceSpaceCore::pollWebcam(void) {
     return frame;
 }
 
-void FaceSpaceCore::log(LogType type, string message) {
+void FaceSpaceCore::log(LogType type, 
+                        string message) {
     switch(type) {
         case SUCCESS: cout << "\x1b[32m[FaceSpace SUCCESS]\x1b[0m "; break;
         case NOTICE: cout << "\x1b[33m[FaceSpace NOTICE]\x1b[0m "; break;
@@ -51,6 +52,7 @@ void FaceSpaceCore::log(LogType type, string message) {
 }
 
 void FaceSpaceCore::terminate(void) {
+    this->webcam->release();
     window->dispose();
     log(SUCCESS, "FaceSpace terminated.");
 }
