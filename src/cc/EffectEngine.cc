@@ -1,10 +1,10 @@
 #ifndef _EFFECT_ENGINE_CC_
 #define _EFFECT_ENGINE_CC_
 
+#include <algorithm>
 #include "../h/FaceSpaceCore.h"
 #include "../h/EffectEngine.h"
 #include "Matrix.cc"
-#include <algorithm>
 
 EffectEngine::EffectEngine() {
     BOX_BLUR_KERNEL = createUniformSquareMatrix(BOX_FILTER_KERNAL_SIZE, 1.0f);
@@ -25,8 +25,7 @@ void EffectEngine::gui(void) {
     ImGui::Checkbox("Apply box blur (2D filter)", &effectState[BOX_BLUR_BIT]);
     ImGui::Checkbox("Apply guassian blur (2D filter)", &effectState[GAUSSIAN_BLUR_BIT]);
     ImGui::Checkbox("Apply edge detection (2D filter)", &effectState[EDGE_DETECTION_BIT]);
-    ImGui::Checkbox("Apply custom filter (2D filter)", &effectState[CUSTOM_FILTER_BIT]);
-    
+    ImGui::Text("Custom kernel creator");
     ImGui::PushItemWidth(100);
     int index = 0;
     for(int i = 0; i < 3; i++) {
@@ -44,6 +43,7 @@ void EffectEngine::gui(void) {
     if(ImGui::Button("Reset")) 
         for(int k = 0; k < 9; k++)
             customKernelArray[k] = (k != 4) ? 0.0f : 1.0f;
+    ImGui::Checkbox("Apply custom kernel (2D filter)", &effectState[CUSTOM_FILTER_BIT]);
 
     ImGui::SliderFloat("Brightness", &brightness, 0, 100.0f);
     ImGui::SliderFloat("Contrast", &contrast, 0, 5.0f);

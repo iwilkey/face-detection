@@ -85,15 +85,15 @@ class EffectEngine {
         CascadeClassifier classifier = CascadeClassifier("../src/xml/HaarFrontalFaceCascade.xml");
         // All detected features will be stored here...
         vector<Rect> features;
-        // Biggest feature rect, usually the face.
+        // Biggest feature rect, usually the face...
         Rect face;
-        // Face detection variables
+        // Face detection variables...
         float scale = 1.1f;
         int neighbors = 4;
         int minSize = 300;
         int maxSize = 300;
 
-        // Effect states
+        // Effect states...
         bool effectState[FILTER_COUNT] = { false };
         bool showFaceDetection = false;
         float brightness = 1.0f;
